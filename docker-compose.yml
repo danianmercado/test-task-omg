@@ -1,0 +1,59 @@
+version: '3.9'
+
+networks:
+  microservice:
+
+services:
+    web:
+        build:
+          context: ./
+          dockerfile: docker/dev/web.docker
+        container_name: nginx_microservice
+        ports:
+          - "80:80"
+        volumes:
+          - ./:/var/www
+        links:
+          - app
+        networks:
+          - microservice
+
+    app:
+        build:
+          context: ./
+          dockerfile: docker/dev/app.docker
+        container_name: php_microservice
+        volumes:
+          - ./:/var/www
+        links:
+          - database
+          - cache
+        environment:
+          - "DB_PORT=3306"
+          - "DB_HOST=database"
+          - "REDIS_PORT=6379"
+          - "REDIS_HOST=cache"
+        networks:
+          - microservice
+
+    database:
+        image: mysql:8.0
+        container_name: mysql_microservice
+        environment:
+          - "MYSQL_ROOT_PASSWORD=123"
+          - "MYSQL_DATABASE=microservice"
+        ports:
+          - "33061:3306"
+        working_dir: /app
+        volumes:
+          - ./:/var/www
+        networks:
+          - microservice
+
+    cache:
+        image: redis
+        container_name: redis_microservice
+        ports:
+          - "63791:6379"
+        networks:
+          - microservice

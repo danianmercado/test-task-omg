@@ -1,0 +1,95 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/v1/get-exchange-rates": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Get exchange rates",
+                "operationId": "get-exchange-rates",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "default": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "external_id": {
+                                                        "type": "string",
+                                                        "example": "R01010"
+                                                    },
+                                                    "num_code": {
+                                                        "type": "string",
+                                                        "example": "036"
+                                                    },
+                                                    "char_code": {
+                                                        "type": "string",
+                                                        "example": "AUD"
+                                                    },
+                                                    "nominal": {
+                                                        "type": "string",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Австралийский доллар"
+                                                    },
+                                                    "value": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 60.324
+                                                    },
+                                                    "v_unit_rate": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 60.324
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "default": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "An error occurred while fetching data",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
